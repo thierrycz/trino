@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.Multimaps.asMap;
 import static io.trino.hive.thrift.metastore.hive_metastoreConstants.TABLE_IS_TRANSACTIONAL;
 import static io.trino.hive.thrift.metastore.hive_metastoreConstants.TABLE_TRANSACTIONAL_PROPERTIES;
@@ -162,7 +163,9 @@ public final class AcidTables
                         isValidBase(base, writeIdList, fileSystem, baseDir)) {
                     bestBasePath = baseDir;
                     bestBaseWriteId = writeId;
-                    bestBaseFiles = files;
+                    bestBaseFiles = files.stream()
+                            .filter(file -> !file.location().fileName().equals("_metadata_acid"))
+                            .collect(toImmutableList());
                 }
             }
             else {
