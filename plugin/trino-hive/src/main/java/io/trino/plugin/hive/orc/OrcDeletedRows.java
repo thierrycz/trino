@@ -400,9 +400,9 @@ public class OrcDeletedRows
 
         // When direct insert is enabled base and delta directories contain bucket_[id]_[attemptId] files
         // but delete delta directories contain bucket files without attemptId so we have to remove it from filename.
-        if (hasAttemptId(fileName)) {
-            return directory.appendPath(fileName.substring(0, fileName.lastIndexOf('_')));
-        }
+        // if (hasAttemptId(fileName)) {
+        //     return directory.appendPath(fileName.substring(0, fileName.lastIndexOf('_')));
+        // }
 
         if (!acidInfo.originalFiles().isEmpty()) {
             // Original file format is different from delete delta, construct delete delta file path from bucket ID of original file.
